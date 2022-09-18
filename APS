@@ -1,0 +1,59 @@
+// APS 1 – Programação Estruturada
+// 1. Criar 5 vetores contendo 10 valores reais gerados aleatoriamente;
+// 2. Utilizar uma função recursiva para somar apenas os elementos pares de cada vetor;
+// 3. Retornar maior elemento do item 2;
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+
+void fill_v(double v[], int n) {
+    // Preenche um vetor v com n elementos aleatórios de 0 a 100
+    int i;                                              // Contador
+    for(i=0; i<n; i++)                                  // Para cada posição
+        v[i] = (double)rand()/(double)(RAND_MAX/100);   // Sorteia um número real de 0 a 100
+}
+
+double sum_even(double v[], int i0, int in) {
+    // Soma dos elementos cuja parte inteira é par da posição i0 até in-1
+    if(i0 == in)                                    // Se chegou ao fim
+        return 0.0;                                 // Retorna 0
+    if((int)v[i0] % 2 == 0)                         // Se a parte inteira for par
+        return v[i0] + sum_even(v, i0+1, in);       // Retorna o atual mais a soma dos seguintes
+    return sum_even(v, i0+1, in);                   // Senão retorna somente a soma dos seguintes
+}
+
+double max(double v[], int n) {
+    // Determina o valor máximo de um vetor de tamanho n
+    int i;                                          // Contador
+    double m = -1.0/0.0;                            // Valor inicial - infinito
+    for(i=0; i<n; i++)                              // Para cada posição do vetor
+        if(v[i] > m)                                // Se o elemento for maior que o máximo atual
+            m = v[i];                               // Atualiza o máximo atual
+    return m;                                       // Retorna o máximo
+}
+
+int main() {                                        // Função principal
+    // 1. Criar 5 vetores contendo 10 valores reais gerados aleatoriamente;
+    double v1[10], v2[10], v3[10], v4[10], v5[10];  // 5 vetores de 10 reais
+    double s[5];                                    // As somas referentes a cada um dos vetores
+    srand((unsigned int)time(NULL));                // Inicializa o gerador aleatório
+    fill_v(v1, 10);                                 // Prrenche o primeiro vetor
+    fill_v(v2, 10);                                 // Prrenche o segundo vetor
+    fill_v(v3, 10);                                 // Prrenche o terceiro vetor
+    fill_v(v4, 10);                                 // Prrenche o quarto vetor
+    fill_v(v5, 10);                                 // Prrenche o quinto vetor
+
+    // 2. Utilizar uma função recursiva para somar apenas os elementos pares de cada vetor;
+    // Vamos somar os elementos cuja parte inteira é par, visto que não existe definição
+    // de paridade para número real
+    s[0] = sum_even(v1, 0, 10);                     // Soma do primeiro vetor
+    s[1] = sum_even(v2, 0, 10);                     // Soma do segundo vetor
+    s[2] = sum_even(v3, 0, 10);                     // Soma do terceiro vetor
+    s[3] = sum_even(v4, 0, 10);                     // Soma do quarto vetor
+    s[4] = sum_even(v5, 0, 10);                     // Soma do quinto vetor
+
+    // 3. Retornar maior elemento do item 2;
+    printf("Maior soma: %lf\n", max(s, 5));
+    return 0;                                       // Fim do programa
+}
